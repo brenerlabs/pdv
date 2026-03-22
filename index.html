@@ -8,20 +8,26 @@
     <style>
         :root {
             --bg: #0f0f0f; --card: #1a1a1a; --text: #ffffff;
-            --primary: #00ff88; --secondary: #25d366; --accent: #e67e22; --muted: #a0a0a0;
+            --primary: #00ff88; --secondary: #25d366; --accent: #34495e; --muted: #a0a0a0;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        /* FONTE EXECUTIVA */
         body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; 
-            letter-spacing: -0.01em;
         }
         
         .container { max-width: 500px; margin: auto; }
+        
+        /* LOGO EM CÍRCULO PERFEITO */
         .logo-header { text-align: center; margin-bottom: 20px; }
-        .logo-header img { max-width: 90px; border-radius: 50%; border: 2px solid var(--primary); }
+        .logo-header img { 
+            width: 100px; height: 100px; 
+            border-radius: 50%; 
+            border: 2px solid var(--primary);
+            object-fit: cover; /* Garante que não distorça */
+        }
+
         .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #222; }
         h2 { font-size: 1rem; color: var(--primary); margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 0.05em; }
         
@@ -49,19 +55,18 @@
         .actions { display: flex; flex-direction: column; gap: 12px; }
         .btn { border: none; padding: 18px; border-radius: 10px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: inherit; }
         .btn-wa { background: var(--secondary); }
-        .btn-img { background: #34495e; /* Azul Escuro Executivo */ }
+        .btn-img { background: var(--accent); }
         .btn-clear { background: #333; font-size: 0.8rem; padding: 12px; margin-top: 15px; opacity: 0.7; }
 
         .footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; padding: 15px; text-align: center; font-size: 0.7rem; border-top: 1px solid var(--primary); z-index: 10; letter-spacing: 0.05em; }
 
-        /* ESTILO DA IMAGEM EXECUTIVA */
+        /* ESTILO DA IMAGEM GERADA (JPEG) */
         #capture-area { 
             position: absolute; left: -9999px; width: 500px; 
             background: #fff; color: #1a1a1a; padding: 40px; 
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
         }
         .cap-header { text-align: center; border-bottom: 2px solid #1a1a1a; padding-bottom: 20px; margin-bottom: 25px; }
-        .cap-logo { max-width: 80px; margin-bottom: 10px; border-radius: 50%; }
+        .cap-logo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
         .cap-item { padding: 12px 0; border-bottom: 1px solid #eee; }
         .cap-footer { margin-top: 30px; text-align: center; font-size: 0.8rem; border-top: 1px solid #eee; padding-top: 20px; color: #555; line-height: 1.6; }
     </style>
@@ -70,17 +75,17 @@
 
 <div id="capture-area">
     <div class="cap-header">
-        <img src="logo1.png" class="cap-logo" alt="Logo">
+        <img src="logo1.png" class="cap-logo">
         <h1 style="margin:0; font-size: 1.2rem; letter-spacing: 2px;">ORÇAMENTO</h1>
-        <p style="margin:5px 0; font-weight: bold; color: #333;">Club da Bola</p>
+        <p style="margin:5px 0; font-weight: bold;">Club da Bola</p>
     </div>
     <div style="margin: 20px 0;">
         <p style="font-size: 0.9rem;"><strong>CLIENTE:</strong> <span id="cap-client"></span></p>
         <div id="cap-list"></div>
     </div>
     <div style="text-align: right; margin: 25px 0;">
-        <span id="cap-total-qty" style="display:block; font-size:0.8rem; color: #777; font-weight: bold;"></span>
-        <span id="cap-total" style="font-size: 1.5rem; font-weight: 900; color: #000;"></span>
+        <span id="cap-total-qty" style="display:block; font-size:0.8rem; color: #777;"></span>
+        <span id="cap-total" style="font-size: 1.5rem; font-weight: 900;"></span>
     </div>
     <div class="cap-footer">
         <strong>CONTATO: (91) 99324-9580</strong><br>
@@ -90,7 +95,7 @@
 </div>
 
 <div class="container">
-    <div class="logo-header"><img src="logo1.png" alt="Logo"></div>
+    <div class="logo-header"><img src="logo1.png"></div>
 
     <div class="card">
         <h2>👤 Identificação</h2>
@@ -99,13 +104,13 @@
     </div>
 
     <div class="card">
-        <h2>📦 Catálogo de Produtos</h2>
-        <input type="text" id="searchBar" placeholder="Pesquisar no catálogo..." onkeyup="filterProducts()">
+        <h2>📦 Catálogo</h2>
+        <input type="text" id="searchBar" placeholder="Pesquisar..." onkeyup="filterProducts()">
         <div id="catalog-list"></div>
     </div>
 
     <div class="card">
-        <h2>🛒 Resumo do Pedido</h2>
+        <h2>🛒 Pedido</h2>
         <div id="cart-display"></div>
         <div class="summary-footer">
             <span class="total-qty" id="total-qty-val">0 ITENS</span>
@@ -115,7 +120,7 @@
         <div class="actions">
             <button class="btn btn-wa" onclick="handleSend('wa')">ENVIAR WHATSAPP</button>
             <button class="btn btn-img" onclick="handleSend('img')">GERAR ORÇAMENTO VISUAL</button>
-            <button class="btn-clear" onclick="clearCart()">LIMPAR PEDIDO ATUAL</button>
+            <button class="btn-clear" onclick="clearCart()">LIMPAR PEDIDO</button>
         </div>
     </div>
 </div>
@@ -138,7 +143,7 @@
         div.innerHTML = "";
         const categories = [...new Set(products.map(p => p.cat))];
         categories.forEach(cat => {
-            div.innerHTML += `<div class="category-title" data-cat="${cat}">${cat}</div>`;
+            div.innerHTML += `<div class="category-title">${cat}</div>`;
             products.filter(p => p.cat === cat).forEach(p => {
                 div.innerHTML += `
                 <div class="product-item" data-name="${p.name.toLowerCase()}">
@@ -174,9 +179,7 @@
     function update() {
         const div = document.getElementById('cart-display');
         const qtySpan = document.getElementById('total-qty-val');
-        div.innerHTML = ""; 
-        let total = 0; let totalQty = 0;
-
+        div.innerHTML = ""; let total = 0; let totalQty = 0;
         cart.forEach(i => {
             const subtotal = i.price * i.qty;
             total += subtotal; totalQty += i.qty;
@@ -193,7 +196,7 @@
         qtySpan.innerText = `${totalQty} ${totalQty === 1 ? 'ITEM' : 'ITENS'}`;
     }
 
-    function clearCart() { if(confirm("Deseja esvaziar o carrinho?")) { cart = []; update(); } }
+    function clearCart() { if(confirm("Esvaziar carrinho?")) { cart = []; update(); } }
 
     async function handleSend(mode) {
         const name = document.getElementById('cName').value;
@@ -201,11 +204,13 @@
         const total = document.getElementById('total-val').innerText;
         const totalQty = document.getElementById('total-qty-val').innerText;
 
-        if(!name || phone.length < 10 || cart.length === 0) return alert("Por favor, preencha o cliente e adicione produtos.");
+        if(!name || phone.length < 10 || cart.length === 0) return alert("Dados incompletos.");
 
-        let text = `Olá, *${name}*! Segue o detalhamento do seu pedido na Club da Bola ⚽%0A%0A`;
-        cart.forEach(i => text += `• ${i.qty}x ${i.name} - ${fmt(i.price*i.qty)}%0A`);
-        text += `%0A*TOTAL: ${total}* (${totalQty})%0A%0AComo você prefere finalizar o pagamento?`;
+        // LÓGICA PARA WHATSAPP NO IOS
+        const waText = `Olá, *${name}*! Detalhamento do pedido Club da Bola ⚽%0A%0A` + 
+                       cart.map(i => `• ${i.qty}x ${i.name} - ${fmt(i.price*i.qty)}`).join('%0A') +
+                       `%0A%0A*TOTAL: ${total}* (${totalQty})`;
+        const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${waText}`;
 
         if(mode === 'img') {
             document.getElementById('cap-client').innerText = name.toUpperCase();
@@ -213,24 +218,26 @@
             document.getElementById('cap-total-qty').innerText = totalQty;
             document.getElementById('cap-list').innerHTML = cart.map(i => `
                 <div class="cap-item">
-                    <div style="display:flex; justify-content:space-between; font-size: 1rem;">
+                    <div style="display:flex; justify-content:space-between;">
                         <span><strong>${i.qty}x</strong> ${i.name}</span>
-                        <span style="font-weight: bold;">${fmt(i.price*i.qty)}</span>
+                        <span style="font-weight:bold;">${fmt(i.price*i.qty)}</span>
                     </div>
-                    <span style="font-size:0.75rem; color:#666;">Valor Unitário: ${fmt(i.price)}</span>
                 </div>`).join('');
             
-            const canvas = await html2canvas(document.getElementById('capture-area'), {
-                scale: 2, // Melhora a qualidade da imagem
-                logging: false,
-                useCORS: true 
-            });
+            const area = document.getElementById('capture-area');
+            const canvas = await html2canvas(area, { scale: 2, useCORS: true });
+            
+            // CONVERTE PARA JPEG E DOWNLOAD
             const link = document.createElement('a');
-            link.download = `Orcamento_${name}.png`;
-            link.href = canvas.toDataURL();
+            link.download = `Orcamento_${name}.jpg`;
+            link.href = canvas.toDataURL("image/jpeg", 0.9);
             link.click();
+            
+            // NO IOS, REDIRECIONA MAIS RÁPIDO PARA O WPP
+            setTimeout(() => { window.location.href = waUrl; }, 1200);
+        } else {
+            window.location.href = waUrl;
         }
-        setTimeout(() => { window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank'); }, 800);
     }
     renderCatalog();
 </script>
