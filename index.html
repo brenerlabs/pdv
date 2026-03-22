@@ -19,13 +19,14 @@
         
         .container { max-width: 500px; margin: auto; }
         
-        /* LOGO EM CÍRCULO PERFEITO */
-        .logo-header { text-align: center; margin-bottom: 20px; }
+        /* LOGO SOLTA - SEM CORTES */
+        .logo-header { text-align: center; margin-bottom: 25px; }
         .logo-header img { 
-            width: 100px; height: 100px; 
-            border-radius: 50%; 
-            border: 2px solid var(--primary);
-            object-fit: cover; /* Garante que não distorça */
+            max-width: 150px; /* Largura máxima maior */
+            max-height: 80px; /* Altura máxima controlada */
+            width: auto; /* Mantém proporção original */
+            height: auto; /* Mantém proporção original */
+            display: inline-block;
         }
 
         .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #222; }
@@ -66,7 +67,15 @@
             background: #fff; color: #1a1a1a; padding: 40px; 
         }
         .cap-header { text-align: center; border-bottom: 2px solid #1a1a1a; padding-bottom: 20px; margin-bottom: 25px; }
-        .cap-logo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; }
+        /* LOGO SOLTA NA FOTO */
+        .cap-logo { 
+            max-width: 120px; 
+            max-height: 70px; 
+            width: auto; 
+            height: auto; 
+            margin-bottom: 10px; 
+            display: inline-block;
+        }
         .cap-item { padding: 12px 0; border-bottom: 1px solid #eee; }
         .cap-footer { margin-top: 30px; text-align: center; font-size: 0.8rem; border-top: 1px solid #eee; padding-top: 20px; color: #555; line-height: 1.6; }
     </style>
@@ -129,10 +138,17 @@
 
 <script>
     const products = [
-        { id: 1, cat: "Vestuário", name: "Camisa de Time (Tailandesa)", price: 189.00 },
-        { id: 2, cat: "Vestuário", name: "Camisa Retrô", price: 150.00 },
-        { id: 3, cat: "Eletrônicos", name: "Fone Bluetooth i12", price: 80.00 },
-        { id: 4, cat: "Eletrônicos", name: "Fonte de Carregamento 20W", price: 65.00 }
+        { id: 1, cat: "Vestuário", name: "Camisa Masculina Cruzeiro I - Torcedor", price: 169.00 },
+        { id: 2, cat: "Vestuário", name: "Camisa Masculina Flamengo I - Torcedor", price: 169.00 },
+        { id: 3, cat: "Vestuário", name: "Camisa Masculina Flamengo I - Jogador", price: 189.00 },
+        { id: 4, cat: "Vestuário", name: "Camisa Masculina Vasco I - Torcedor", price: 169.00 },
+        { id: 5, cat: "Vestuário", name: "Camisa Masculina Vasco II - Torcedor", price: 169.00 },
+        { id: 6, cat: "Vestuário", name: "Camisa Masculina Brasil I - Torcedor", price: 169.00 },
+        { id: 7, cat: "Vestuário", name: "Camisa Masculina Brasil I - Jogador", price: 199.00 },
+        { id: 8, cat: "Vestuário", name: "Camisa Masculina Brasil II - Torcedor", price: 169.00 },
+        { id: 9, cat: "Vestuário", name: "Camisa Masculina Brasil II - Jogador", price: 199.00 },
+        { id: 10, cat: "Vestuário", name: "Camisa Feminina Brasil I - Torcedor", price: 169.00 },
+        { id: 11, cat: "Vestuário", name: "Camisa Feminina Brasil II - Torcedor", price: 169.00 }
     ];
 
     let cart = [];
