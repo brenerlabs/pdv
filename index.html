@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PDV Club da Bola</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg: #0f0f0f; --card: #1a1a1a; --text: #ffffff;
+            --primary: #00ff88; --secondary: #25d366; --accent: #e67e22; --muted: #a0a0a0;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        /* FONTE EXECUTIVA */
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; 
+            letter-spacing: -0.01em;
+        }
+        
+        .container { max-width: 500px; margin: auto; }
+        .logo-header { text-align: center; margin-bottom: 20px; }
+        .logo-header img { max-width: 90px; border-radius: 50%; border: 2px solid var(--primary); }
+        .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #222; }
+        h2 { font-size: 1rem; color: var(--primary); margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .category-title { background: #222; padding: 10px 12px; border-radius: 6px; font-size: 0.8rem; color: var(--primary); margin: 25px 0 10px 0; text-transform: uppercase; font-weight: 700; border-left: 3px solid var(--primary); }
+        
+        input { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #333; background: #222; color: white; font-size: 16px; font-family: inherit; }
+        #searchBar { border: 1px solid var(--primary); }
+        
+        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #2a2a2a; }
+        .p-name { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.95rem; }
+        .p-unit { font-size: 0.85rem; color: var(--muted); }
+        
+        .controls { display: flex; align-items: center; gap: 10px; }
+        .qty-input { width: 60px !important; margin-bottom: 0; text-align: center; padding: 10px; font-weight: 600; }
+        .btn-add { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 800; cursor: pointer; }
+
+        .cart-item { padding: 12px 0; border-bottom: 1px dashed #333; font-size: 0.9rem; }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; }
+        .item-subdetail { color: var(--muted); font-size: 0.75rem; display: block; margin-top: 4px; }
+        
+        .summary-footer { text-align: right; margin-top: 20px; border-top: 1px solid var(--primary); padding-top: 15px; }
+        .total-box { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
+        .total-qty { font-size: 0.85rem; color: var(--muted); display: block; text-transform: uppercase; margin-bottom: 4px; }
+        
+        .actions { display: flex; flex-direction: column; gap: 12px; }
+        .btn { border: none; padding: 18px; border-radius: 10px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: inherit; }
+        .btn-wa { background: var(--secondary); }
+        .btn-img { background: #34495e; /* Azul Escuro Executivo */ }
+        .btn-clear { background: #333; font-size: 0.8rem; padding: 12px; margin-top: 15px; opacity: 0.7; }
+
+        .footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; padding: 15px; text-align: center; font-size: 0.7rem; border-top: 1px solid var(--primary); z-index: 10; letter-spacing: 0.05em; }
+
+        /* ESTILO DA IMAGEM EXECUTIVA */
+        #capture-area { 
+            position: absolute; left: -9999px; width: 500px; 
+            background: #fff; color: #1a1a1a; padding: 40px; 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+        }
+        .cap-header { text-align: center; border-bottom: 2px solid #1a1a1a; padding-bottom: 20px; margin-bottom: 25px; }
+        .cap-logo { max-width: 80px; margin-bottom: 10px; border-radius: 50%; }
+        .cap-item { padding: 12px 0; border-bottom: 1px solid #eee; }
+        .cap-footer { margin-top: 30px; text-align: center; font-size: 0.8rem; border-top: 1px solid #eee; padding-top: 20px; color: #555; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div id="capture-area">
+    <div class="cap-header">
+        <img src="logo1.png" class="cap-logo" alt="Logo">
+        <h1 style="margin:0; font-size: 1.2rem; letter-spacing: 2px;">ORÇAMENTO</h1>
+        <p style="margin:5px 0; font-weight: bold; color: #333;">Club da Bola</p>
+    </div>
+    <div style="margin: 20px 0;">
+        <p style="font-size: 0.9rem;"><strong>CLIENTE:</strong> <span id="cap-client"></span></p>
+        <div id="cap-list"></div>
+    </div>
+    <div style="text-align: right; margin: 25px 0;">
+        <span id="cap-total-qty" style="display:block; font-size:0.8rem; color: #777; font-weight: bold;"></span>
+        <span id="cap-total" style="font-size: 1.5rem; font-weight: 900; color: #000;"></span>
+    </div>
+    <div class="cap-footer">
+        <strong>CONTATO: (91) 99324-9580</strong><br>
+        Garantia de 7 dias após o recebimento<br>
+        Obrigado pela preferência! ⚽
+    </div>
+</div>
+
+<div class="container">
+    <div class="logo-header"><img src="logo1.png" alt="Logo"></div>
+
+    <div class="card">
+        <h2>👤 Identificação</h2>
+        <input type="text" id="cName" placeholder="Nome do Cliente">
+        <input type="tel" id="cPhone" value="+55" placeholder="WhatsApp">
+    </div>
+
+    <div class="card">
+        <h2>📦 Catálogo de Produtos</h2>
+        <input type="text" id="searchBar" placeholder="Pesquisar no catálogo..." onkeyup="filterProducts()">
+        <div id="catalog-list"></div>
+    </div>
+
+    <div class="card">
+        <h2>🛒 Resumo do Pedido</h2>
+        <div id="cart-display"></div>
+        <div class="summary-footer">
+            <span class="total-qty" id="total-qty-val">0 ITENS</span>
+            <span class="total-box" id="total-val">R$ 0,00</span>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-wa" onclick="handleSend('wa')">ENVIAR WHATSAPP</button>
+            <button class="btn btn-img" onclick="handleSend('img')">GERAR ORÇAMENTO VISUAL</button>
+            <button class="btn-clear" onclick="clearCart()">LIMPAR PEDIDO ATUAL</button>
+        </div>
+    </div>
+</div>
+
+<div class="footer"><strong>BRENER GOMES | @GBRENERS - @CLUB.DABOLA</strong></div>
+
+<script>
+    const products = [
+        { id: 1, cat: "Vestuário", name: "Camisa de Time (Tailandesa)", price: 189.00 },
+        { id: 2, cat: "Vestuário", name: "Camisa Retrô", price: 150.00 },
+        { id: 3, cat: "Eletrônicos", name: "Fone Bluetooth i12", price: 80.00 },
+        { id: 4, cat: "Eletrônicos", name: "Fonte de Carregamento 20W", price: 65.00 }
+    ];
+
+    let cart = [];
+    const fmt = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    function renderCatalog() {
+        const div = document.getElementById('catalog-list');
+        div.innerHTML = "";
+        const categories = [...new Set(products.map(p => p.cat))];
+        categories.forEach(cat => {
+            div.innerHTML += `<div class="category-title" data-cat="${cat}">${cat}</div>`;
+            products.filter(p => p.cat === cat).forEach(p => {
+                div.innerHTML += `
+                <div class="product-item" data-name="${p.name.toLowerCase()}">
+                    <div class="info">
+                        <span class="p-name">${p.name}</span>
+                        <span class="p-unit">Unitário: ${fmt(p.price)}</span>
+                    </div>
+                    <div class="controls">
+                        <input type="number" id="q_${p.id}" value="1" min="1" class="qty-input">
+                        <button class="btn-add" onclick="add(${p.id})">+</button>
+                    </div>
+                </div>`;
+            });
+        });
+    }
+
+    function filterProducts() {
+        const term = document.getElementById('searchBar').value.toLowerCase();
+        document.querySelectorAll('.product-item').forEach(i => {
+            i.style.display = i.getAttribute('data-name').includes(term) ? "flex" : "none";
+        });
+    }
+
+    function add(id) {
+        const qty = parseInt(document.getElementById(`q_${id}`).value);
+        const p = products.find(x => x.id === id);
+        const item = cart.find(x => x.id === id);
+        if(item) item.qty += qty; else cart.push({...p, qty});
+        document.getElementById(`q_${id}`).value = 1;
+        update();
+    }
+
+    function update() {
+        const div = document.getElementById('cart-display');
+        const qtySpan = document.getElementById('total-qty-val');
+        div.innerHTML = ""; 
+        let total = 0; let totalQty = 0;
+
+        cart.forEach(i => {
+            const subtotal = i.price * i.qty;
+            total += subtotal; totalQty += i.qty;
+            div.innerHTML += `
+            <div class="cart-item">
+                <div class="cart-item-row">
+                    <span><strong>${i.qty}x</strong> ${i.name}</span>
+                    <span>${fmt(subtotal)}</span>
+                </div>
+                <span class="item-subdetail">Preço Un: ${fmt(i.price)}</span>
+            </div>`;
+        });
+        document.getElementById('total-val').innerText = fmt(total);
+        qtySpan.innerText = `${totalQty} ${totalQty === 1 ? 'ITEM' : 'ITENS'}`;
+    }
+
+    function clearCart() { if(confirm("Deseja esvaziar o carrinho?")) { cart = []; update(); } }
+
+    async function handleSend(mode) {
+        const name = document.getElementById('cName').value;
+        const phone = document.getElementById('cPhone').value.replace(/\D/g, '');
+        const total = document.getElementById('total-val').innerText;
+        const totalQty = document.getElementById('total-qty-val').innerText;
+
+        if(!name || phone.length < 10 || cart.length === 0) return alert("Por favor, preencha o cliente e adicione produtos.");
+
+        let text = `Olá, *${name}*! Segue o detalhamento do seu pedido na Club da Bola ⚽%0A%0A`;
+        cart.forEach(i => text += `• ${i.qty}x ${i.name} - ${fmt(i.price*i.qty)}%0A`);
+        text += `%0A*TOTAL: ${total}* (${totalQty})%0A%0AComo você prefere finalizar o pagamento?`;
+
+        if(mode === 'img') {
+            document.getElementById('cap-client').innerText = name.toUpperCase();
+            document.getElementById('cap-total').innerText = total;
+            document.getElementById('cap-total-qty').innerText = totalQty;
+            document.getElementById('cap-list').innerHTML = cart.map(i => `
+                <div class="cap-item">
+                    <div style="display:flex; justify-content:space-between; font-size: 1rem;">
+                        <span><strong>${i.qty}x</strong> ${i.name}</span>
+                        <span style="font-weight: bold;">${fmt(i.price*i.qty)}</span>
+                    </div>
+                    <span style="font-size:0.75rem; color:#666;">Valor Unitário: ${fmt(i.price)}</span>
+                </div>`).join('');
+            
+            const canvas = await html2canvas(document.getElementById('capture-area'), {
+                scale: 2, // Melhora a qualidade da imagem
+                logging: false,
+                useCORS: true 
+            });
+            const link = document.createElement('a');
+            link.download = `Orcamento_${name}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        setTimeout(() => { window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank'); }, 800);
+    }
+    renderCatalog();
+</script>
+</body>
+</html>
