@@ -2,264 +2,341 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PDV Club da Bola</title>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club da Bola - ERP Executivo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
         :root {
-            --bg: #0f0f0f; --card: #1a1a1a; --text: #ffffff;
-            --primary: #00ff88; --secondary: #25d366; --accent: #34495e; --muted: #a0a0a0;
+            --brand-green: #00ff88;
+            --bg-dark: #050505;
+            --card-dark: #121212;
+            --border-dark: #1f1f1f;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
+
         body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; 
-        }
-        
-        .container { max-width: 500px; margin: auto; }
-        
-        /* LOGO SOLTA - SEM CORTES */
-        .logo-header { text-align: center; margin-bottom: 25px; }
-        .logo-header img { 
-            max-width: 150px; /* Largura máxima maior */
-            max-height: 80px; /* Altura máxima controlada */
-            width: auto; /* Mantém proporção original */
-            height: auto; /* Mantém proporção original */
-            display: inline-block;
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-dark); 
+            color: #f3f4f6; 
+            overflow-x: hidden;
         }
 
-        .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #222; }
-        h2 { font-size: 1rem; color: var(--primary); margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 0.05em; }
-        
-        .category-title { background: #222; padding: 10px 12px; border-radius: 6px; font-size: 0.8rem; color: var(--primary); margin: 25px 0 10px 0; text-transform: uppercase; font-weight: 700; border-left: 3px solid var(--primary); }
-        
-        input { width: 100%; padding: 14px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #333; background: #222; color: white; font-size: 16px; font-family: inherit; }
-        #searchBar { border: 1px solid var(--primary); }
-        
-        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #2a2a2a; }
-        .p-name { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.95rem; }
-        .p-unit { font-size: 0.85rem; color: var(--muted); }
-        
-        .controls { display: flex; align-items: center; gap: 10px; }
-        .qty-input { width: 60px !important; margin-bottom: 0; text-align: center; padding: 10px; font-weight: 600; }
-        .btn-add { background: var(--primary); color: #000; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 800; cursor: pointer; }
-
-        .cart-item { padding: 12px 0; border-bottom: 1px dashed #333; font-size: 0.9rem; }
-        .cart-item-row { display: flex; justify-content: space-between; align-items: center; }
-        .item-subdetail { color: var(--muted); font-size: 0.75rem; display: block; margin-top: 4px; }
-        
-        .summary-footer { text-align: right; margin-top: 20px; border-top: 1px solid var(--primary); padding-top: 15px; }
-        .total-box { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
-        .total-qty { font-size: 0.85rem; color: var(--muted); display: block; text-transform: uppercase; margin-bottom: 4px; }
-        
-        .actions { display: flex; flex-direction: column; gap: 12px; }
-        .btn { border: none; padding: 18px; border-radius: 10px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-family: inherit; }
-        .btn-wa { background: var(--secondary); }
-        .btn-img { background: var(--accent); }
-        .btn-clear { background: #333; font-size: 0.8rem; padding: 12px; margin-top: 15px; opacity: 0.7; }
-
-        .footer { position: fixed; bottom: 0; left: 0; width: 100%; background: #000; padding: 15px; text-align: center; font-size: 0.7rem; border-top: 1px solid var(--primary); z-index: 10; letter-spacing: 0.05em; }
-
-        /* ESTILO DA IMAGEM GERADA (JPEG) */
-        #capture-area { 
-            position: absolute; left: -9999px; width: 500px; 
-            background: #fff; color: #1a1a1a; padding: 40px; 
+        .glass-card { 
+            background: var(--card-dark); 
+            border: 1px solid var(--border-dark); 
+            border-radius: 16px; 
         }
-        .cap-header { text-align: center; border-bottom: 2px solid #1a1a1a; padding-bottom: 20px; margin-bottom: 25px; }
-        /* LOGO SOLTA NA FOTO */
-        .cap-logo { 
-            max-width: 120px; 
-            max-height: 70px; 
-            width: auto; 
-            height: auto; 
-            margin-bottom: 10px; 
-            display: inline-block;
+
+        .tab-btn { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border-radius: 12px; 
+            color: #6b7280;
         }
-        .cap-item { padding: 12px 0; border-bottom: 1px solid #eee; }
-        .cap-footer { margin-top: 30px; text-align: center; font-size: 0.8rem; border-top: 1px solid #eee; padding-top: 20px; color: #555; line-height: 1.6; }
+
+        .tab-btn.active { 
+            background: var(--brand-green); 
+            color: #000; 
+            font-weight: 800; 
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.2); 
+        }
+
+        .input-dark { 
+            background: #0a0a0a; 
+            border: 1px solid var(--border-dark); 
+            border-radius: 10px; 
+            padding: 12px; 
+            color: white; 
+            width: 100%; 
+            outline: none; 
+            transition: border 0.3s; 
+        }
+
+        .input-dark:focus { border-color: var(--brand-green); }
+
+        .sidebar { 
+            height: 100vh; 
+            width: 85px; 
+            border-right: 1px solid var(--border-dark); 
+            position: fixed; 
+            left: 0; 
+            top: 0; 
+            background: #080808; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 50;
+        }
+
+        .main-content { margin-left: 85px; padding: 24px; }
+
+        @media (max-width: 768px) {
+            .sidebar { 
+                width: 100%; 
+                height: 65px; 
+                top: auto; 
+                bottom: 0; 
+                flex-direction: row; 
+                justify-content: space-around;
+                border-right: none; 
+                border-top: 1px solid var(--border-dark); 
+            }
+            .main-content { margin-left: 0; margin-bottom: 80px; padding: 16px; }
+            .sidebar img { display: none; }
+        }
+
+        /* Estilo da Logo que você solicitou como "solta" */
+        .brand-logo { width: 45px; height: auto; margin-bottom: 2rem; margin-top: 1.5rem; }
     </style>
 </head>
 <body>
 
-<div id="capture-area">
-    <div class="cap-header">
-        <img src="logo1.png" class="cap-logo">
-        <h1 style="margin:0; font-size: 1.2rem; letter-spacing: 2px;">ORÇAMENTO</h1>
-        <p style="margin:5px 0; font-weight: bold;">Club da Bola</p>
-    </div>
-    <div style="margin: 20px 0;">
-        <p style="font-size: 0.9rem;"><strong>CLIENTE:</strong> <span id="cap-client"></span></p>
-        <div id="cap-list"></div>
-    </div>
-    <div style="text-align: right; margin: 25px 0;">
-        <span id="cap-total-qty" style="display:block; font-size:0.8rem; color: #777;"></span>
-        <span id="cap-total" style="font-size: 1.5rem; font-weight: 900;"></span>
-    </div>
-    <div class="cap-footer">
-        <strong>CONTATO: (91) 99324-9580</strong><br>
-        Garantia de 7 dias após o recebimento<br>
-        Obrigado pela preferência! ⚽
-    </div>
-</div>
+    <aside class="sidebar">
+        <img src="https://i.imgur.com/8p5m9X2.png" class="brand-logo" alt="Club da Bola">
+        <button onclick="showTab('dashboard')" id="btn-dashboard" class="tab-btn active p-3 mb-4" title="Dashboard"><i class="fas fa-chart-pie text-xl"></i></button>
+        <button onclick="showTab('vendas')" id="btn-vendas" class="tab-btn p-3 mb-4" title="Nova Venda"><i class="fas fa-shopping-cart text-xl"></i></button>
+        <button onclick="showTab('clientes')" id="btn-clientes" class="tab-btn p-3 mb-4" title="Clientes"><i class="fas fa-users text-xl"></i></button>
+        <button onclick="showTab('estoque')" id="btn-estoque" class="tab-btn p-3 mb-4" title="Estoque"><i class="fas fa-box-open text-xl"></i></button>
+        <button onclick="showTab('compensacao')" id="btn-compensacao" class="tab-btn p-3 mb-4" title="Compensação"><i class="fas fa-hand-holding-dollar text-xl"></i></button>
+        <button onclick="showTab('historico')" id="btn-historico" class="tab-btn p-3 mb-4" title="Histórico"><i class="fas fa-clock-rotate-left text-xl"></i></button>
+    </aside>
 
-<div class="container">
-    <div class="logo-header"><img src="logo1.png"></div>
-
-    <div class="card">
-        <h2>👤 Identificação</h2>
-        <input type="text" id="cName" placeholder="Nome do Cliente">
-        <input type="tel" id="cPhone" value="+55" placeholder="WhatsApp">
-    </div>
-
-    <div class="card">
-        <h2>📦 Catálogo</h2>
-        <input type="text" id="searchBar" placeholder="Pesquisar..." onkeyup="filterProducts()">
-        <div id="catalog-list"></div>
-    </div>
-
-    <div class="card">
-        <h2>🛒 Pedido</h2>
-        <div id="cart-display"></div>
-        <div class="summary-footer">
-            <span class="total-qty" id="total-qty-val">0 ITENS</span>
-            <span class="total-box" id="total-val">R$ 0,00</span>
-        </div>
+    <main class="main-content">
         
-        <div class="actions">
-            <button class="btn btn-wa" onclick="handleSend('wa')">ENVIAR WHATSAPP</button>
-            <button class="btn btn-img" onclick="handleSend('img')">GERAR ORÇAMENTO VISUAL</button>
-            <button class="btn-clear" onclick="clearCart()">LIMPAR PEDIDO</button>
-        </div>
-    </div>
-</div>
-
-<div class="footer"><strong>BRENER GOMES | @GBRENERS - @CLUB.DABOLA</strong></div>
-
-<script>
-    const products = [
-        { id: 1, cat: "Vestuário", name: "Camisa Masculina Cruzeiro I - Torcedor", price: 169.00 },
-        { id: 2, cat: "Vestuário", name: "Camisa Masculina Flamengo I - Torcedor", price: 169.00 },
-        { id: 3, cat: "Vestuário", name: "Camisa Masculina Flamengo I - Jogador", price: 189.00 },
-        { id: 4, cat: "Vestuário", name: "Camisa Masculina Vasco I - Torcedor", price: 169.00 },
-        { id: 5, cat: "Vestuário", name: "Camisa Masculina Vasco II - Torcedor", price: 169.00 },
-        { id: 6, cat: "Vestuário", name: "Camisa Masculina Brasil I - Torcedor", price: 169.00 },
-        { id: 7, cat: "Vestuário", name: "Camisa Masculina Brasil I - Jogador", price: 199.00 },
-        { id: 8, cat: "Vestuário", name: "Camisa Masculina Brasil II - Torcedor", price: 169.00 },
-        { id: 9, cat: "Vestuário", name: "Camisa Masculina Brasil II - Jogador", price: 199.00 },
-        { id: 10, cat: "Vestuário", name: "Camisa Feminina Brasil I - Torcedor", price: 169.00 },
-        { id: 11, cat: "Vestuário", name: "Camisa Feminina Brasil II - Torcedor", price: 169.00 },
-        { id: 12, cat: "Vestuário", name: "Personalização (Nome + Número)", price: 30.00 },
-        { id: 13, cat: "Eletrônico", name: "Cabo Lightning - 1m", price: 75.00 },
-        { id: 14, cat: "Eletrônico", name: "Cabo Type-C - 1m", price: 75.00 },
-        { id: 15, cat: "Eletrônico", name: "Fonte Type-C + USB", price: 85.00 }
-    ];
-
-    let cart = [];
-    const fmt = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-    function renderCatalog() {
-        const div = document.getElementById('catalog-list');
-        div.innerHTML = "";
-        const categories = [...new Set(products.map(p => p.cat))];
-        categories.forEach(cat => {
-            div.innerHTML += `<div class="category-title">${cat}</div>`;
-            products.filter(p => p.cat === cat).forEach(p => {
-                div.innerHTML += `
-                <div class="product-item" data-name="${p.name.toLowerCase()}">
-                    <div class="info">
-                        <span class="p-name">${p.name}</span>
-                        <span class="p-unit">Unitário: ${fmt(p.price)}</span>
-                    </div>
-                    <div class="controls">
-                        <input type="number" id="q_${p.id}" value="1" min="1" class="qty-input">
-                        <button class="btn-add" onclick="add(${p.id})">+</button>
-                    </div>
-                </div>`;
-            });
-        });
-    }
-
-    function filterProducts() {
-        const term = document.getElementById('searchBar').value.toLowerCase();
-        document.querySelectorAll('.product-item').forEach(i => {
-            i.style.display = i.getAttribute('data-name').includes(term) ? "flex" : "none";
-        });
-    }
-
-    function add(id) {
-        const qty = parseInt(document.getElementById(`q_${id}`).value);
-        const p = products.find(x => x.id === id);
-        const item = cart.find(x => x.id === id);
-        if(item) item.qty += qty; else cart.push({...p, qty});
-        document.getElementById(`q_${id}`).value = 1;
-        update();
-    }
-
-    function update() {
-        const div = document.getElementById('cart-display');
-        const qtySpan = document.getElementById('total-qty-val');
-        div.innerHTML = ""; let total = 0; let totalQty = 0;
-        cart.forEach(i => {
-            const subtotal = i.price * i.qty;
-            total += subtotal; totalQty += i.qty;
-            div.innerHTML += `
-            <div class="cart-item">
-                <div class="cart-item-row">
-                    <span><strong>${i.qty}x</strong> ${i.name}</span>
-                    <span>${fmt(subtotal)}</span>
+        <section id="tab-dashboard" class="space-y-6 animate-fade">
+            <header>
+                <h1 class="text-3xl font-black">Management Dashboard</h1>
+                <p class="text-gray-500 text-sm">Visão geral do Club da Bola</p>
+            </header>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 border-b-4 border-green-500">
+                    <p class="text-xs text-gray-500 uppercase font-bold mb-2">Vendas (Bruto)</p>
+                    <h2 id="dash-bruto" class="text-3xl font-black text-white">R$ 0,00</h2>
                 </div>
-                <span class="item-subdetail">Preço Un: ${fmt(i.price)}</span>
-            </div>`;
-        });
-        document.getElementById('total-val').innerText = fmt(total);
-        qtySpan.innerText = `${totalQty} ${totalQty === 1 ? 'ITEM' : 'ITENS'}`;
-    }
+                <div class="glass-card p-6 border-b-4 border-emerald-400">
+                    <p class="text-xs text-gray-500 uppercase font-bold mb-2">Lucro Estimado</p>
+                    <h2 id="dash-lucro" class="text-3xl font-black text-emerald-400">R$ 0,00</h2>
+                </div>
+                <div class="glass-card p-6 border-b-4 border-orange-500">
+                    <p class="text-xs text-gray-500 uppercase font-bold mb-2">A Receber (Pendências)</p>
+                    <h2 id="dash-pendente" class="text-3xl font-black text-orange-500">R$ 0,00</h2>
+                </div>
+            </div>
+        </section>
 
-    function clearCart() { if(confirm("Esvaziar carrinho?")) { cart = []; update(); } }
-
-    async function handleSend(mode) {
-        const name = document.getElementById('cName').value;
-        const phone = document.getElementById('cPhone').value.replace(/\D/g, '');
-        const total = document.getElementById('total-val').innerText;
-        const totalQty = document.getElementById('total-qty-val').innerText;
-
-        if(!name || phone.length < 10 || cart.length === 0) return alert("Dados incompletos.");
-
-        // LÓGICA PARA WHATSAPP NO IOS
-        const waText = `Olá, *${name}*! Detalhamento do pedido Club da Bola ⚽%0A%0A` + 
-                       cart.map(i => `• ${i.qty}x ${i.name} - ${fmt(i.price*i.qty)}`).join('%0A') +
-                       `%0A%0A*TOTAL: ${total}* (${totalQty})`;
-        const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${waText}`;
-
-        if(mode === 'img') {
-            document.getElementById('cap-client').innerText = name.toUpperCase();
-            document.getElementById('cap-total').innerText = total;
-            document.getElementById('cap-total-qty').innerText = totalQty;
-            document.getElementById('cap-list').innerHTML = cart.map(i => `
-                <div class="cap-item">
-                    <div style="display:flex; justify-content:space-between;">
-                        <span><strong>${i.qty}x</strong> ${i.name}</span>
-                        <span style="font-weight:bold;">${fmt(i.price*i.qty)}</span>
+        <section id="tab-vendas" class="hidden space-y-6">
+            <h1 class="text-2xl font-black">Nova Transação</h1>
+            <div class="glass-card p-6 max-w-2xl mx-auto md:mx-0">
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Cliente</label>
+                        <input type="text" id="v-cliente" class="input-dark mt-1" placeholder="Nome do cliente">
                     </div>
-                </div>`).join('');
-            
-            const area = document.getElementById('capture-area');
-            const canvas = await html2canvas(area, { scale: 2, useCORS: true });
-            
-            // CONVERTE PARA JPEG E DOWNLOAD
-            const link = document.createElement('a');
-            link.download = `Orcamento_${name}.jpg`;
-            link.href = canvas.toDataURL("image/jpeg", 0.9);
-            link.click();
-            
-            // NO IOS, REDIRECIONA MAIS RÁPIDO PARA O WPP
-            setTimeout(() => { window.location.href = waUrl; }, 1200);
-        } else {
-            window.location.href = waUrl;
+                    <div>
+                        <label class="text-xs font-bold text-gray-500 uppercase">Produto</label>
+                        <select id="v-produto" class="input-dark mt-1"></select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Quantidade</label>
+                            <input type="number" id="v-qtd" class="input-dark mt-1" value="1">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Tamanho</label>
+                            <select id="v-tamanho" class="input-dark mt-1">
+                                <option>P</option><option selected>M</option><option>G</option><option>GG</option><option>XG</option><option>—</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="addVenda()" class="w-full bg-[#00ff88] text-black font-black py-4 rounded-xl hover:opacity-90 transition shadow-lg shadow-green-900/10 mt-4">
+                        FINALIZAR VENDA
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-clientes" class="hidden space-y-6">
+            <h1 class="text-2xl font-black">Gestão de Clientes</h1>
+            <div id="lista-clientes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                </div>
+        </section>
+
+        <section id="tab-estoque" class="hidden space-y-6">
+            <h1 class="text-2xl font-black">Inventário de Produtos</h1>
+            <div class="glass-card p-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <input type="text" id="e-nome" class="input-dark" placeholder="Nome do Produto">
+                    <input type="number" id="e-custo" class="input-dark" placeholder="Custo R$">
+                    <input type="number" id="e-venda" class="input-dark" placeholder="Preço Venda R$">
+                    <input type="number" id="e-qtd" class="input-dark" placeholder="Qtd Inicial">
+                </div>
+                <button onclick="addEstoque()" class="mt-4 px-8 py-3 bg-white text-black font-black rounded-lg hover:bg-gray-200 transition">CADASTRAR PRODUTO</button>
+            </div>
+            <div id="lista-estoque" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6"></div>
+        </section>
+
+        <section id="tab-compensacao" class="hidden space-y-6">
+            <h1 class="text-2xl font-black text-orange-500">Compensar Pagamentos</h1>
+            <div class="glass-card p-6 max-w-xl">
+                <p class="text-sm text-gray-500 mb-6">Selecione uma pendência para registrar o recebimento parcial ou total.</p>
+                <div id="lista-compensar" class="space-y-3"></div>
+            </div>
+        </section>
+
+        <section id="tab-historico" class="hidden space-y-6">
+            <h1 class="text-2xl font-black">Histórico Recente</h1>
+            <div class="glass-card overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-[#0a0a0a] border-b border-border-dark text-xs uppercase text-gray-500">
+                        <tr>
+                            <th class="p-4">Data</th>
+                            <th class="p-4">Cliente</th>
+                            <th class="p-4">Produto</th>
+                            <th class="p-4">Total</th>
+                            <th class="p-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-historico" class="text-sm"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Dados Persistentes
+        let db = JSON.parse(localStorage.getItem('clubBola_v4')) || { 
+            produtos: [
+                { id: 1, nome: "Camisa Tailandesa", custo: 80, venda: 189, qtd: 10 },
+                { id: 2, nome: "Fone i12", custo: 30, venda: 80, qtd: 15 }
+            ], 
+            vendas: [], 
+            clientes: [] 
+        };
+
+        function save() {
+            localStorage.setItem('clubBola_v4', JSON.stringify(db));
+            render();
         }
-    }
-    renderCatalog();
-</script>
+
+        function showTab(tabId) {
+            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.sidebar .tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('text-gray-500');
+            });
+            document.getElementById('btn-' + tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.remove('text-gray-500');
+        }
+
+        function addEstoque() {
+            const nome = document.getElementById('e-nome').value;
+            const custo = parseFloat(document.getElementById('e-custo').value || 0);
+            const venda = parseFloat(document.getElementById('e-venda').value || 0);
+            const qtd = parseInt(document.getElementById('e-qtd').value || 0);
+
+            if(nome && venda) {
+                db.produtos.push({ id: Date.now(), nome, custo, venda, qtd });
+                save();
+                ['e-nome', 'e-custo', 'e-venda', 'e-qtd'].forEach(id => document.getElementById(id).value = '');
+            }
+        }
+
+        function addVenda() {
+            const clienteNome = document.getElementById('v-cliente').value;
+            const pId = document.getElementById('v-produto').value;
+            const qtd = parseInt(document.getElementById('v-qtd').value || 1);
+            const tam = document.getElementById('v-tamanho').value;
+            const prod = db.produtos.find(p => p.id == pId);
+
+            if(prod && clienteNome) {
+                const total = prod.venda * qtd;
+                const lucro = (prod.venda - prod.custo) * qtd;
+                
+                db.vendas.push({
+                    id: Date.now(), cliente: clienteNome, produto: prod.nome, 
+                    total, lucro, data: new Date().toLocaleDateString('pt-BR'), pendente: true
+                });
+
+                prod.qtd -= qtd;
+
+                let c = db.clientes.find(x => x.nome.toLowerCase() === clienteNome.toLowerCase());
+                if(c) { c.totalGasto += total; c.saldoDevedor += total; } 
+                else { db.clientes.push({ nome: clienteNome, totalGasto: total, saldoDevedor: total }); }
+                
+                save();
+                alert("Venda registrada com sucesso!");
+                document.getElementById('v-cliente').value = '';
+            }
+        }
+
+        function quitar(nome) {
+            const valor = parseFloat(prompt(`Valor pago por ${nome}:`));
+            if(valor > 0) {
+                let c = db.clientes.find(x => x.nome === nome);
+                c.saldoDevedor = Math.max(0, c.saldoDevedor - valor);
+                // Marcar vendas como pagas logicamente (simplificado)
+                db.vendas.filter(v => v.cliente === nome).forEach(v => v.pendente = c.saldoDevedor > 0);
+                save();
+            }
+        }
+
+        function render() {
+            const f = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            
+            // Dashboard
+            const bruto = db.vendas.reduce((a, b) => a + b.total, 0);
+            const lucro = db.vendas.reduce((a, b) => a + b.lucro, 0);
+            const pendente = db.clientes.reduce((a, b) => a + b.saldoDevedor, 0);
+            document.getElementById('dash-bruto').innerText = f(bruto);
+            document.getElementById('dash-lucro').innerText = f(lucro);
+            document.getElementById('dash-pendente').innerText = f(pendente);
+
+            // Select de Produtos
+            document.getElementById('v-produto').innerHTML = db.produtos.map(p => `<option value="${p.id}">${p.nome} - ${f(p.venda)}</option>`).join('');
+
+            // Listas
+            document.getElementById('lista-estoque').innerHTML = db.produtos.map(p => `
+                <div class="glass-card p-4 flex justify-between items-center">
+                    <div><p class="font-bold">${p.nome}</p><p class="text-xs text-gray-500">Custo: ${f(p.custo)} | Venda: ${f(p.venda)}</p></div>
+                    <div class="text-right"><p class="text-xl font-black ${p.qtd < 5 ? 'text-red-500' : 'text-white'}">${p.qtd}</p><p class="text-[10px] uppercase text-gray-500">Em estoque</p></div>
+                </div>
+            `).join('');
+
+            document.getElementById('lista-clientes').innerHTML = db.clientes.map(c => `
+                <div class="glass-card p-4">
+                    <p class="font-black text-lg">${c.nome}</p>
+                    <div class="flex justify-between mt-2">
+                        <span class="text-xs text-gray-500">Total Gasto: ${f(c.totalGasto)}</span>
+                        <span class="text-xs font-bold ${c.saldoDevedor > 0 ? 'text-orange-500' : 'text-green-500'}">Dívida: ${f(c.saldoDevedor)}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('lista-compensar').innerHTML = db.clientes.filter(c => c.saldoDevedor > 0).map(c => `
+                <div class="flex justify-between items-center p-4 bg-[#0a0a0a] rounded-xl border border-border-dark">
+                    <span>${c.nome} <b class="ml-2 text-orange-500">${f(c.saldoDevedor)}</b></span>
+                    <button onclick="quitar('${c.nome}')" class="bg-white text-black text-xs font-bold px-4 py-2 rounded-lg">QUITAR</button>
+                </div>
+            `).join('');
+
+            document.getElementById('lista-historico').innerHTML = db.vendas.slice().reverse().map(v => `
+                <tr class="border-b border-border-dark hover:bg-[#0a0a0a] transition">
+                    <td class="p-4 text-gray-500">${v.data}</td>
+                    <td class="p-4 font-bold">${v.cliente}</td>
+                    <td class="p-4">${v.produto}</td>
+                    <td class="p-4">${f(v.total)}</td>
+                    <td class="p-4"><span class="px-3 py-1 rounded-full text-[10px] font-black ${v.pendente ? 'bg-orange-900/20 text-orange-500' : 'bg-green-900/20 text-green-500'}">${v.pendente ? 'PENDENTE' : 'PAGO'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // Inicialização
+        render();
+    </script>
 </body>
 </html>
